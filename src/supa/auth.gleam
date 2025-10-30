@@ -1,10 +1,9 @@
 // API page list best all the endpoints https://supabase.com/dashboard/project/wrdiolbafudgmcgvqhnb/api?page=users
-import gleam/dynamic
+import gleam/dynamic/decode
 import gleam/http
 import gleam/http/request
 import gleam/http/response
 import gleam/json
-import gleam/pair
 import gleam/string
 import midas/task as t
 import snag
@@ -36,7 +35,7 @@ pub fn sign_in_with_otp(client, email_address, create_user) {
       ):utf8,
     >>)
   use response <- t.do(t.fetch(request))
-  decode_response(response, fn(_) { Ok(Nil) })
+  decode_response(response, decode.success(Nil))
 }
 
 pub fn verify_otp(client, email_address, token) {
@@ -54,15 +53,13 @@ pub fn verify_otp(client, email_address, token) {
       ):utf8,
     >>)
   use response <- t.do(t.fetch(request))
-  decode_response(response, verify_decoder)
+  decode_response(response, verify_decoder())
 }
 
-pub fn verify_decoder(raw) {
-  dynamic.decode2(
-    pair.new,
-    session_decoder,
-    dynamic.field("user", user_decoder),
-  )(raw)
+pub fn verify_decoder() {
+  use session <- decode.then(session_decoder())
+  use user <- decode.field("user", user_decoder())
+  decode.success(#(session, user))
 }
 
 // useful for storage
@@ -96,39 +93,41 @@ pub type Session {
   )
 }
 
-fn session_decoder(raw) {
-  dynamic.decode5(
-    Session,
-    dynamic.field("access_token", dynamic.string),
-    dynamic.field("expires_at", dynamic.int),
-    dynamic.field("expires_in", dynamic.int),
-    dynamic.field("refresh_token", dynamic.string),
-    dynamic.field("token_type", dynamic.string),
-  )(raw)
+fn session_decoder() {
+  use access_token <- decode.field("access_token", decode.string)
+  use expires_at <- decode.field("expires_at", decode.int)
+  use expires_in <- decode.field("expires_in", decode.int)
+  use refresh_token <- decode.field("refresh_token", decode.string)
+  use token_type <- decode.field("token_type", decode.string)
+  decode.success(Session(
+    access_token:,
+    expires_at:,
+    expires_in:,
+    refresh_token:,
+    token_type:,
+  ))
 }
 
 pub type User {
   User(created_at: String, email: String, id: String)
 }
 
-fn user_decoder(raw) {
-  dynamic.decode3(
-    User,
-    dynamic.field("created_at", dynamic.string),
-    dynamic.field("email", dynamic.string),
-    dynamic.field("id", dynamic.string),
-  )(raw)
+fn user_decoder() {
+  use created_at <- decode.field("created_at", decode.string)
+  use email <- decode.field("email", decode.string)
+  use id <- decode.field("id", decode.string)
+  decode.success(User(created_at: created_at, email: email, id: id))
 }
 
 fn decode_response(response: response.Response(_), decoder) {
   case response.status {
     200 ->
-      case json.decode_bits(response.body, decoder) {
+      case json.parse_bits(response.body, decoder) {
         Ok(data) -> t.done(data)
         Error(reason) -> t.abort(snag.new(string.inspect(reason)))
       }
     _ ->
-      case json.decode_bits(response.body, error_decoder) {
+      case json.parse_bits(response.body, error_decoder()) {
         Ok(reason) -> t.abort(snag.new(reason.message))
         Error(reason) -> t.abort(snag.new(string.inspect(reason)))
       }
@@ -139,10 +138,8 @@ pub type Reason {
   Reason(error: String, message: String)
 }
 
-fn error_decoder(raw) {
-  dynamic.decode2(
-    Reason,
-    dynamic.field("error_code", dynamic.string),
-    dynamic.field("msg", dynamic.string),
-  )(raw)
+fn error_decoder() {
+  use error <- decode.field("error_code", decode.string)
+  use message <- decode.field("msg", decode.string)
+  decode.success(Reason(error:, message:))
 }

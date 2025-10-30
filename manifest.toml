@@ -2,18 +2,18 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "filepath", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "filepath", source = "hex", outer_checksum = "67A6D15FB39EEB69DD31F8C145BB5A421790581BD6AA14B33D64D5A55DBD6587" },
-  { name = "gleam_http", version = "3.7.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_http", source = "hex", outer_checksum = "8A70D2F70BB7CFEB5DF048A2183FFBA91AF6D4CF5798504841744A16999E33D2" },
-  { name = "gleam_json", version = "2.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "0A57FB5666E695FD2BEE74C0428A98B0FC11A395D2C7B4CDF5E22C5DD32C74C6" },
-  { name = "gleam_stdlib", version = "0.49.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "A7DB09F15738198A87255425FBCE049B4B84C77CC522786DC923DABA73911F13" },
-  { name = "gleeunit", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "F7A7228925D3EE7D0813C922E062BFD6D7E9310F0BEE585D3A42F3307E3CFD13" },
-  { name = "midas", version = "1.4.1", build_tools = ["gleam"], requirements = ["filepath", "gleam_http", "gleam_json", "gleam_stdlib", "snag"], otp_app = "midas", source = "hex", outer_checksum = "5D0C9F924D527DCA35D818A2D87A1ED0923FA3CAF59976F1A2D1C970A30C9C07" },
+  { name = "filepath", version = "1.1.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "filepath", source = "hex", outer_checksum = "B06A9AF0BF10E51401D64B98E4B627F1D2E48C154967DA7AF4D0914780A6D40A" },
+  { name = "gleam_http", version = "4.3.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_http", source = "hex", outer_checksum = "82EA6A717C842456188C190AFB372665EA56CE13D8559BF3B1DD9E40F619EE0C" },
+  { name = "gleam_json", version = "3.0.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "874FA3C3BB6E22DD2BB111966BD40B3759E9094E05257899A7C08F5DE77EC049" },
+  { name = "gleam_stdlib", version = "0.65.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "7C69C71D8C493AE11A5184828A77110EB05A7786EBF8B25B36A72F879C3EE107" },
+  { name = "gleeunit", version = "1.7.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "CD701726CBCE5588B375D157B4391CFD0F2F134CD12D9B6998A395484DE05C58" },
+  { name = "midas", version = "1.7.0", build_tools = ["gleam"], requirements = ["filepath", "gleam_http", "gleam_json", "gleam_stdlib", "snag"], otp_app = "midas", source = "hex", outer_checksum = "672ECD0DFE877AE23AAAC8C0F4B4D83A4C4374346EE483C5DD269A970D8193F4" },
   { name = "snag", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "snag", source = "hex", outer_checksum = "7E9F06390040EB5FAB392CE642771484136F2EC103A92AE11BA898C8167E6E17" },
 ]
 
 [requirements]
-gleam_http = { version = ">= 3.7.2 and < 4.0.0" }
-gleam_json = { version = ">= 1.0.0 and < 3.0.0" }
+gleam_http = { version = ">= 3.7.2 and < 5.0.0" }
+gleam_json = { version = ">= 1.0.0 and < 4.0.0" }
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
 midas = { version = ">= 1.4.0 and < 2.0.0" }
